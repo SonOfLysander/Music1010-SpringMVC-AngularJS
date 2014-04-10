@@ -1,0 +1,35 @@
+body{
+	background-color: #BDB;
+}
+
+div.search-block {
+	margin-bottom: 85px;
+	text-align: center;
+	margin-top: 85px;
+	width: 100%;
+}
+
+div.search-block input {
+	font-size: 35px;
+}
+
+div.qa-block {
+	background-color: #AAF;
+	margin-right: 150px;
+	margin-left: 150px;
+	border-radius:25px;
+	overflow-y: auto;
+	font-family: Arial;
+	font-size: 28px;
+	height: 350px;
+}
+
+div.question {
+	background-color: #AAF;
+	margin-left: 25px;
+}
+
+div.answer {
+	background-color: #CFC;
+	text-align: right;
+}

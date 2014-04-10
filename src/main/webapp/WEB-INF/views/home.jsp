@@ -8,14 +8,20 @@
 	src="<c:url value="/resources/js/angular-1.2.16.min.js"/>"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/js/music-1010.js"/>"></script>
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/resources/css/music.css"/>">
 </head>
 <body>
 	<div ng-controller="qaCtrl">
-		Search: <input type="text" ng-model="searchText" />
-		{{searchText}}
-		<div ng-repeat="(question, answers) in filterQuestions(questions, searchText)">
-			<div>{{question}}</div>
-			<div ng-repeat="answer in answers">{{answer}}</div>
+		<div class='search-block'>
+			<input type="text" ng-model="searchText" />
+		</div>
+		<div class='qa-block'>
+			<div
+				ng-repeat="(question, answers) in filterQuestions(questions, searchText)">
+				<div class='question'>{{question}}</div>
+				<div class='answer' ng-repeat="answer in answers">{{answer}}</div>
+			</div>
 		</div>
 
 	</div>
