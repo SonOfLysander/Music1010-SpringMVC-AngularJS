@@ -1,13 +1,10 @@
 var app = angular.module('musicApp', []);
 app.controller('qaCtrl', function($scope) {
-	function init() {
-		qaFactory.getQaData.success(function(data) {
-			$scope.questions = data;
-		}).error(function(data) {
-			console.log(data);
-		});
-	}
-	init();
+	qaFactory.getQaData.success(function(data) {
+		$scope.questions = data;
+	}).error(function(data) {
+		console.log(data);
+	});
 });
 app.factory('qaFactory', function($http) {
 	var factory = {};

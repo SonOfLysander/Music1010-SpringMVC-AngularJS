@@ -36,15 +36,14 @@ public class HomeController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		logger.info("Page Requested");
-		logger.info("Page Returned");
+		logger.info("/");
 		return "home";
 	}
 
 	@RequestMapping(value = "/question-answers", method = RequestMethod.GET)
 	public @ResponseBody Map<String, List<String>> getAndParseCsvToJson(
 			Locale locale, Model model) {
-		logger.info("JSON Requested");
+		logger.info("/question-answers");
 		Map<String, List<String>> questionsMap = new HashMap<String, List<String>>();
 		try (InputStream inputStream = servletContext
 				.getResourceAsStream("/WEB-INF/csv/question-answers.csv")) {
@@ -67,7 +66,6 @@ public class HomeController {
 			logger.error(e.getMessage());
 			logger.error(e.getStackTrace().toString());
 		}
-		logger.info("JSON Returned");
 		return questionsMap;
 	}
 
