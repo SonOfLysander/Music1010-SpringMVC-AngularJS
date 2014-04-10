@@ -14,14 +14,19 @@ app.controller('qaCtrl', function($scope, qaFactory) {
 		}).error(function(data) {
 			console.log(data);
 		});
-	};
-	$scope.filterQuestions = function(items, searchText){
+	}
+	;
+	$scope.filterQuestions = function(items, searchText) {
 		var result = {};
-		angular.forEach(items, function(value, key){
-			if ((String(key)).toLowerCase().indexOf(searchText.toLowerCase()) > -1){
-				result[key] = value;
-			}
-		});
+		angular.forEach(items,
+				function(value, key) {
+					if ((String(key)).toLowerCase().indexOf(
+							searchText.toLowerCase()) > -1
+							|| (String(value)).toLowerCase().indexOf(
+									searchText.toLowerCase()) > -1) {
+						result[key] = value;
+					}
+				});
 		return result;
 	};
 	init();

@@ -31,5 +31,6 @@ div.question {
 
 div.answer {
 	background-color: #CFC;
+	margin-bottom: 2px;
 	text-align: right;
 }
