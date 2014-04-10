@@ -1,4 +1,4 @@
-body{
+body {
 	background-color: #BDB;
 }
 
@@ -17,9 +17,9 @@ div.qa-block {
 	background-color: #AAF;
 	margin-right: 150px;
 	margin-left: 150px;
-	border-radius:25px;
-	overflow-y: auto;
+	border-radius: 25px;
 	font-family: Arial;
+	overflow-y: auto;
 	font-size: 28px;
 	height: 350px;
 }
