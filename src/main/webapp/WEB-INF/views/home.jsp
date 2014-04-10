@@ -10,12 +10,12 @@
 	src="<c:url value="/resources/js/music-1010.js"/>"></script>
 </head>
 <body>
-	<div ng-controller="musicApp">
-		Search: <input type='text' ng-model='searchText' />
+	<div ng-controller="qaCtrl">
+		Search: <input type="text" ng-model="searchText" />
 		{{searchText}}
-		<div ng-repeat='(question, answers) in questions'>
+		<div ng-repeat="(question, answers) in filterQuestions(questions, searchText)">
 			<div>{{question}}</div>
-			<div ng-repeat='answer in answers'>{{answer}}</div>
+			<div ng-repeat="answer in answers">{{answer}}</div>
 		</div>
 
 	</div>
