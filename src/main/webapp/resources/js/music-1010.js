@@ -1,4 +1,4 @@
-var app = angular.module('musicApp', []);
+var app = angular.module('musicApp', [ 'ngSanitize' ]);
 app.factory('qaFactory', function($http) {
 	var factory = {};
 	factory.getQaData = function() {
@@ -7,7 +7,7 @@ app.factory('qaFactory', function($http) {
 	return factory;
 });
 
-app.controller('qaCtrl', function($scope, qaFactory) {
+app.controller('qaCtrl', function($scope, qaFactory, $sce) {
 	function init() {
 		qaFactory.getQaData().success(function(data) {
 			$scope.questions = data;
@@ -28,6 +28,9 @@ app.controller('qaCtrl', function($scope, qaFactory) {
 					}
 				});
 		return result;
+	};
+	$scope.htmlToTrusted = function(untrustedHtml) {
+		return $sce.trustAsHtml(untrustedHtml);
 	};
 	init();
 });

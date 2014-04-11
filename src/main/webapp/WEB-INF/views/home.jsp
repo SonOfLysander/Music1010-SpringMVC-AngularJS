@@ -6,6 +6,8 @@
 <title>Music-1010-Study-Resource</title>
 <script type="text/javascript"
 	src="<c:url value="/resources/js/angular-1.2.16.min.js"/>"></script>
+	<script type="text/javascript"
+	src="<c:url value="/resources/js/angular-sanitize-1.2.16.min.js"/>"></script>
 <script type="text/javascript"
 	src="<c:url value="/resources/js/music-1010.js"/>"></script>
 <link rel="stylesheet" type="text/css"
@@ -19,8 +21,8 @@
 		<div class='qa-block'>
 			<div
 				ng-repeat="(question, answers) in filterQuestions(questions, searchText)">
-				<div class='question'>{{question}}</div>
-				<div class='answer' ng-repeat="answer in answers">{{answer}}</div>
+				<div class='question' ng-bind-html='htmlToTrusted(question)'></div>
+				<div class='answer' ng-repeat="answer in answers" ng-bind-html='htmlToTrusted(answer)'></div>
 			</div>
 		</div>
 
