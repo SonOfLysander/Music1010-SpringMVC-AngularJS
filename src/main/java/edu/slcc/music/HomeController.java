@@ -66,7 +66,11 @@ public class HomeController {
 						answers.add(data[i]);
 						logger.info("Adding: " + data[i]);
 					}
-					questionsMap.put(data[0], answers);
+					if (questionsMap.containsKey(data[0])) {
+						questionsMap.get(data[0]).addAll(answers);
+					} else {
+						questionsMap.put(data[0], answers);
+					}
 				} else {
 					logger.info("Line too short, only " + data.length
 							+ " elements.");
