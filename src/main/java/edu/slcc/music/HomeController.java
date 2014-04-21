@@ -61,10 +61,11 @@ public class HomeController {
 				logger.info("Parsing line " + lineNumber++ + ": " + line);
 				String[] data = line.split(";");
 				if (data.length > 0) {
+					logger.info("Question:" + data[0]);
 					List<String> answers = new ArrayList<String>();
 					for (int i = 1; i < data.length; i++) {
 						answers.add(data[i]);
-						logger.info("Adding: " + data[i]);
+						logger.info("Adding answer: " + data[i]);
 					}
 					if (questionsMap.containsKey(data[0])) {
 						questionsMap.get(data[0]).addAll(answers);
