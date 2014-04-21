@@ -1,6 +1,7 @@
 package edu.slcc.music;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -39,7 +40,12 @@ public class HomeController {
 		logger.info("/");
 		return "home";
 	}
-
+	
+	@RequestMapping(value = "/question-answers/mod", method = RequestMethod.GET)
+	public @ResponseBody String getModfiedDate(){
+		return "";
+	}
+	
 	@RequestMapping(value = "/question-answers", method = RequestMethod.GET)
 	public @ResponseBody Map<String, List<String>> getAndParseCsvToJson(
 			Locale locale, Model model) {
@@ -52,10 +58,10 @@ public class HomeController {
 			String line = "";
 			while ((line = bufferedReader.readLine()) != null) {
 				String[] data = line.split(";");
-				if (data.length < 2) {
-					throw new IOException(
-							"Didn't read enough data from file line.");
-				}
+				// if (data.length < 2) {
+				// throw new IOException(
+				// "Didn't read enough data from file line.");
+				// }
 				List<String> answers = new ArrayList<String>();
 				for (int i = 1; i < data.length; i++) {
 					answers.add(data[i]);
