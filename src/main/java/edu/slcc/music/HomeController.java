@@ -40,12 +40,12 @@ public class HomeController {
 		logger.info("/");
 		return "home";
 	}
-	
+
 	@RequestMapping(value = "/question-answers/mod", method = RequestMethod.GET)
-	public @ResponseBody String getModfiedDate(){
+	public @ResponseBody String getModfiedDate() {
 		return "";
 	}
-	
+
 	@RequestMapping(value = "/question-answers", method = RequestMethod.GET)
 	public @ResponseBody Map<String, List<String>> getAndParseCsvToJson(
 			Locale locale, Model model) {
@@ -57,16 +57,18 @@ public class HomeController {
 					new InputStreamReader(inputStream));
 			String line = "";
 			while ((line = bufferedReader.readLine()) != null) {
+				logger.info("Parsing line: " + line);
 				String[] data = line.split(";");
-				// if (data.length < 2) {
-				// throw new IOException(
-				// "Didn't read enough data from file line.");
-				// }
-				List<String> answers = new ArrayList<String>();
-				for (int i = 1; i < data.length; i++) {
-					answers.add(data[i]);
+				if (data.length > 0) {
+					List<String> answers = new ArrayList<String>();
+					for (int i = 1; i < data.length; i++) {
+						answers.add(data[i]);
+						logger.info("Adding: " + data[i]);
+					}
+					questionsMap.put(data[0], answers);
+				} else {
+					logger.info("Line too short, only " + data.length + " elements.");
 				}
-				questionsMap.put(data[0], answers);
 			}
 		} catch (IOException e) {
 			logger.error(e.getMessage());
