@@ -56,8 +56,9 @@ public class HomeController {
 			BufferedReader bufferedReader = new BufferedReader(
 					new InputStreamReader(inputStream));
 			String line = "";
+			int lineNumber = 1;
 			while ((line = bufferedReader.readLine()) != null) {
-				logger.info("Parsing line: " + line);
+				logger.info("Parsing line " + lineNumber++ + ": " + line);
 				String[] data = line.split(";");
 				if (data.length > 0) {
 					List<String> answers = new ArrayList<String>();
@@ -67,7 +68,8 @@ public class HomeController {
 					}
 					questionsMap.put(data[0], answers);
 				} else {
-					logger.info("Line too short, only " + data.length + " elements.");
+					logger.info("Line too short, only " + data.length
+							+ " elements.");
 				}
 			}
 		} catch (IOException e) {
