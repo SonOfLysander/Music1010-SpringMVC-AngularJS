@@ -2,7 +2,7 @@ var app = angular.module('musicApp', [ 'ngSanitize' ]);
 app.factory('qaFactory', function($http) {
 	var factory = {};
 	factory.getQaData = function() {
-		return $http.get('http://localhost:8080/music/question-answers');
+		return $http.get('http://localhost:8081/music/qa');
 	};
 	return factory;
 });

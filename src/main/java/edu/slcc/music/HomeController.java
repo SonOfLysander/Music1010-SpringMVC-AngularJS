@@ -46,7 +46,7 @@ public class HomeController {
 		return "";
 	}
 
-	@RequestMapping(value = "/question-answers", method = RequestMethod.GET)
+	@RequestMapping(value = "/qa", method = RequestMethod.GET)
 	public @ResponseBody Map<String, List<String>> getAndParseCsvToJson(
 			Locale locale, Model model) {
 		logger.info("/question-answers");
