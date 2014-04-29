@@ -44,7 +44,7 @@ div.card{
 	text-align: center;
 	height:		300px;
 	width:		200px;
-	margin:		5px;
+	margin:		15px;
 }
 div.card-question{
 	border-bottom: dashed black 1px;
@@ -54,13 +54,18 @@ div.card-question{
 div.card-question img{
 	max-width:	135px;
 }
-div.card-answer{
-	/*position:	absolute;
-	top:		50%;*/
-	
-	border-bottom: dashed black 1px;
+div.card-answer{		
+	/*border-bottom: dashed black 1px;*/
+	padding-bottom: 35%;
+	padding-top:	2px;
 	text-align: center;
-	height:		150px;
+	
+	max-height: 150px;
+	height: 150px;
+}
+div.card-answer span{
+	width: 100%;
+	display: block;
 	
 	-webkit-transform:rotate(-180deg);
 	-moz-transform:rotate(-180deg); 
