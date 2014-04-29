@@ -34,3 +34,38 @@ div.answer {
 	margin-bottom: 2px;
 	text-align: right;
 }
+
+div.all-cards {
+	padding: 85px;
+}
+div.card{
+	display:	inline-block;
+	border:		solid black 2px;
+	text-align: center;
+	height:		300px;
+	width:		200px;
+	margin:		5px;
+}
+div.card-question{
+	border-bottom: dashed black 1px;
+	height:	150px;
+	clear:	right;
+}
+div.card-question img{
+	max-width:	135px;
+}
+div.card-answer{
+	/*position:	absolute;
+	top:		50%;*/
+	
+	border-bottom: dashed black 1px;
+	text-align: center;
+	height:		150px;
+	
+	-webkit-transform:rotate(-180deg);
+	-moz-transform:rotate(-180deg); 
+	-o-transform:rotate(-180deg); 
+	transform:rotate(-180deg);
+	ms-filter:"progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+	filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+}
