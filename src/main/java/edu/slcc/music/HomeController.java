@@ -40,8 +40,14 @@ public class HomeController {
 		logger.info("/");
 		return "home";
 	}
+	
+	@RequestMapping(value= "/cards", method = RequestMethod.GET)
+	public String studyCards(){
+		logger.info("/cards");
+		return "flashcards";
+	}
 
-	@RequestMapping(value = "/question-answers/mod", method = RequestMethod.GET)
+	@RequestMapping(value = "/qa/mod", method = RequestMethod.GET)
 	public @ResponseBody String getModfiedDate() {
 		return "";
 	}
@@ -83,5 +89,4 @@ public class HomeController {
 		}
 		return questionsMap;
 	}
-
 }
