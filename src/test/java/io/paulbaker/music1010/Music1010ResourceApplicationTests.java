@@ -1,6 +1,5 @@
-package music1010;
+package io.paulbaker.music1010;
 
-import io.paulbaker.music1010.Music1010ResourceApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
