@@ -1,6 +1,8 @@
 package io.paulbaker.music1010;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,9 +14,10 @@ public class MusicalFactoid {
   private String question;
   private List<String> answer;
 
-  public MusicalFactoid(String question, String... answer) {
-    this.question = question;
-    this.answer = Arrays.asList(answer);
+  public MusicalFactoid(String question, List<String> answer) {
+    this.question = Objects.requireNonNull(question);
+    this.answer = new ArrayList<>(answer.size());
+    Collections.copy(this.answer, Objects.requireNonNull(answer));
   }
 
   public String getQuestion() {
