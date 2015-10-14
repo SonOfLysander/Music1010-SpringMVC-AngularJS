@@ -23,8 +23,7 @@ public class Answer {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   @Column(name = "id")
   private long answerId;
-
-  //  @Column()
+  
   @ManyToOne(targetEntity = Question.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinColumn(name = "question_id", referencedColumnName = "id", insertable = true, updatable = true)
   private Question question;
