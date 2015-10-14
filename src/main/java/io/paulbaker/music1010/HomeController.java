@@ -28,12 +28,12 @@ public class HomeController {
 
   private final Logger logger = Logger.getLogger(this.getClass());
 
-  private
-  @Autowired
-  ServletContext servletContext;
+//  private
+//  @Autowired
+//  ServletContext servletContext;
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
-  public String home(Locale locale, Model model) {
+  public String home() {
     logger.info("/");
     return "home";
   }
@@ -44,46 +44,44 @@ public class HomeController {
     return "flashcards";
   }
 
-  @RequestMapping(value = "/qa/mod", method = RequestMethod.GET)
-  public
-  @ResponseBody
-  String getModfiedDate() {
-    return "";
-  }
+//  @RequestMapping(value = "/qa/mod", method = RequestMethod.GET)
+//  public
+//  @ResponseBody
+//  String getModfiedDate() {
+//    return "";
+//  }
 
-  @RequestMapping(value = "/qa", method = RequestMethod.GET)
-  public
-  @ResponseBody
-  Map<String, List<String>> getAndParseCsvToJson(Locale locale, Model model) {
-    logger.info("/question-answers");
-    Map<String, List<String>> questionsMap = new HashMap<>();
-    try (InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/csv/question-answers.csv")) {
-      BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-      String line = "";
-      int lineNumber = 1;
-      while ((line = bufferedReader.readLine()) != null) {
-        logger.info("Parsing line " + lineNumber++ + ": " + line);
-        String[] data = line.split(";");
-        if (data.length > 0) {
-          logger.info("Question:" + data[0]);
-          List<String> answers = new ArrayList<>();
-          for(int i = 1; i < data.length; i++) {
-            answers.add(data[i]);
-            logger.info("Adding answer: " + data[i]);
-          }
-          if (questionsMap.containsKey(data[0])) {
-            questionsMap.get(data[0]).addAll(answers);
-          } else {
-            questionsMap.put(data[0], answers);
-          }
-        } else {
-          logger.info("Line too short, only " + data.length
-            + " elements.");
-        }
-      }
-    } catch (IOException e) {
-      logger.error(e.getMessage(), e);
-    }
-    return questionsMap;
-  }
+//  @RequestMapping(value = "/qa", method = RequestMethod.GET)
+//  public @ResponseBody Map<String, List<String>> getAndParseCsvToJson(Locale locale, Model model) {
+//    logger.info("/question-answers");
+//    Map<String, List<String>> questionsMap = new HashMap<>();
+//    try (InputStream inputStream = servletContext.getResourceAsStream("/WEB-INF/csv/question-answers.csv")) {
+//      BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+//      String line = "";
+//      int lineNumber = 1;
+//      while ((line = bufferedReader.readLine()) != null) {
+//        logger.info("Parsing line " + lineNumber++ + ": " + line);
+//        String[] data = line.split(";");
+//        if (data.length > 0) {
+//          logger.info("Question:" + data[0]);
+//          List<String> answers = new ArrayList<>();
+//          for(int i = 1; i < data.length; i++) {
+//            answers.add(data[i]);
+//            logger.info("Adding answer: " + data[i]);
+//          }
+//          if (questionsMap.containsKey(data[0])) {
+//            questionsMap.get(data[0]).addAll(answers);
+//          } else {
+//            questionsMap.put(data[0], answers);
+//          }
+//        } else {
+//          logger.info("Line too short, only " + data.length
+//            + " elements.");
+//        }
+//      }
+//    } catch (IOException e) {
+//      logger.error(e.getMessage(), e);
+//    }
+//    return questionsMap;
+//  }
 }
