@@ -15,9 +15,7 @@ import java.net.URI;
 public class Music1010ResourceApplication implements CommandLineRunner {
 
   private Logger logger = Logger.getLogger(this.getClass());
-
-//  @Autowired
-//  private Environment environment;
+  
   @Value("${server.port}")
   private String port;
 

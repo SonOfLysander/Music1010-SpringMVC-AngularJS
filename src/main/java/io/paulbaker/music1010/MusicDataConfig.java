@@ -31,6 +31,9 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -53,23 +56,21 @@ public class MusicDataConfig {
 
   @Bean
   public LineMapper<MusicalFactoid> musicalFactoidLineMapper() {
-    DefaultLineMapper<MusicalFactoid> musicalFactoidDefaultLineMapper = new DefaultLineMapper<>();
-    musicalFactoidDefaultLineMapper.setLineTokenizer(new DelimitedLineTokenizer() {{
-      setDelimiter(";");
-      setNames(new String[]{"question", "answer"});
-    }});
-    musicalFactoidDefaultLineMapper.setFieldSetMapper(new BeanWrapperFieldSetMapper<MusicalFactoid>() {{
-      setTargetType(MusicalFactoid.class);
-    }});
-
-    return musicalFactoidDefaultLineMapper;
+    return (line, lineNumber) -> {
+      String[] values = line.split(";");
+      String question = values[0];
+      List<String> answers = new ArrayList<>(values.length - 1);
+      for (int i = 1; i < values.length; i++) {
+        answers.add(values[i]);
+      }
+      return new MusicalFactoid(question, answers);
+    };
   }
 
   @Bean
   public ItemReader<MusicalFactoid> musicReader(LineMapper<MusicalFactoid> musicalFactoidLineMapper) {
     FlatFileItemReader<MusicalFactoid> itemReader = new FlatFileItemReader<>();
     itemReader.setResource(musicCsvResource);
-//    itemReader.setResource(new ClassPathResource("musicdata.csv"));
     itemReader.setLineMapper(musicalFactoidLineMapper);
     return itemReader;
   }
@@ -82,14 +83,6 @@ public class MusicDataConfig {
     itemWriter.setDataSource(dataSource);
     return itemWriter;
   }
-
-//  @Bean
-//  public ItemProcessor<MusicalFactoid, MusicalFactoid> musicProcessor() {
-//    return item -> {
-//      logger.info(String.format("Processing:: %s: %s", item.getQuestion(), item.getAnswer()));
-//      return item;
-//    };
-//  }
 
   @Bean
   public Step step1(StepBuilderFactory stepFactory, ItemReader<MusicalFactoid> itemReader, ItemWriter<MusicalFactoid> itemWriter) {
