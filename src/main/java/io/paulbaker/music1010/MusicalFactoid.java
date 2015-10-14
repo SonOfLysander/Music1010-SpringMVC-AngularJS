@@ -14,8 +14,6 @@ public class MusicalFactoid {
   public MusicalFactoid(String question, List<String> answer) {
     this.question = Objects.requireNonNull(question);
     this.answer = Objects.requireNonNull(answer);
-//    this.answer = new ArrayList<>(answer.size());
-//    Collections.copy(this.answer, Objects.requireNonNull(answer));
   }
 
   public String getQuestion() {

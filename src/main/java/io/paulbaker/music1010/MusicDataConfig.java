@@ -15,24 +15,14 @@ import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourc
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.LineMapper;
-import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
-import org.springframework.batch.item.file.mapping.DefaultLineMapper;
-import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -47,12 +37,6 @@ public class MusicDataConfig {
 
   @Value("classpath:musicdata.csv")
   private Resource musicCsvResource;
-
-//  @Bean
-//  public Resource musicCsvResource() {
-//    return musicCsvResource;
-//    return new ClassPathResource("classpath:question-answer.csv");
-//  }
 
   @Bean
   public LineMapper<MusicalFactoid> musicalFactoidLineMapper() {
@@ -79,6 +63,8 @@ public class MusicDataConfig {
   public ItemWriter<MusicalFactoid> musicWriter(DataSource dataSource) {
     JdbcBatchItemWriter<MusicalFactoid> itemWriter = new JdbcBatchItemWriter<>();
     itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<MusicalFactoid>());
+//    itemWriter.setSql("INSERT INTO music_facts (questions, answers) VALUES (:question, :answer)");
+    itemWriter.setSql("INSERT INTO music_questions (question) VALUES (:question)");
     itemWriter.setSql("INSERT INTO music_facts (questions, answers) VALUES (:question, :answer)");
     itemWriter.setDataSource(dataSource);
     return itemWriter;
@@ -96,14 +82,14 @@ public class MusicDataConfig {
       .incrementer(new RunIdIncrementer()).listener(listener).flow(step1).end().build();
   }
 
-  @Bean
-  public DataSource dataSource() {
-    return new EmbeddedDatabaseBuilder()
-      .setType(EmbeddedDatabaseType.HSQL)
-//      .addScript("classpath:schema.sql")
-//      .addScript("classpath:test-data.sql")
-      .build();
-  }
+//  @Bean
+//  public DataSource dataSource() {
+//    return new EmbeddedDatabaseBuilder()
+//      .setType(EmbeddedDatabaseType.HSQL)
+////      .addScript("classpath:schema.sql")
+////      .addScript("classpath:test-data.sql")
+//      .build();
+//  }
 
   @Bean
   public JdbcTemplate jdbcTemplate(DataSource dataSource) {
@@ -121,13 +107,13 @@ public class MusicDataConfig {
       @Override
       public void afterJob(JobExecution jobExecution) {
         logger.info("ENDING JOB:: " + jobExecution.getJobConfigurationName());
-        jdbcTemplate.query("select * from music_facts", new RowMapper<MusicalFactoid>() {
-          @Override
-          public MusicalFactoid mapRow(ResultSet resultSet, int i) throws SQLException {
-
-            return null;
-          }
-        });
+//        jdbcTemplate.query("select * from music_facts", new RowMapper<MusicalFactoid>() {
+//          @Override
+//          public MusicalFactoid mapRow(ResultSet resultSet, int i) throws SQLException {
+//
+//            return null;
+//          }
+//        });
       }
     };
   }

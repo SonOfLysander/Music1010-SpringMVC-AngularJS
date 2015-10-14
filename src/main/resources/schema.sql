@@ -13,3 +13,6 @@ CREATE TABLE music_answers
   PRIMARY KEY (id),
   FOREIGN KEY (question_id) REFERENCES music_questions (id)
 );
+
+-- COMMIT;
+-- SHUTDOWN;
