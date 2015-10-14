@@ -23,13 +23,22 @@ public class Answer {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   @Column(name = "id")
   private long answerId;
-  
+
   @ManyToOne(targetEntity = Question.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinColumn(name = "question_id", referencedColumnName = "id", insertable = true, updatable = true)
   private Question question;
 
   @Column(name = "answer")
   private String answer;
+
+  public Answer(Question question, String answer) {
+    this(answer);
+    this.question = question;
+  }
+
+  public Answer(String answer) {
+    this.answer = answer;
+  }
 
   public long getAnswerId() {
     return answerId;

@@ -1,5 +1,6 @@
 package io.paulbaker.music1010;
 
+import io.paulbaker.music1010.entities.Answer;
 import io.paulbaker.music1010.entities.Question;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
@@ -43,12 +44,14 @@ public class MusicDataConfig {
   public LineMapper<Question> musicalFactoidLineMapper() {
     return (line, lineNumber) -> {
       String[] values = line.split(";");
-      String question = values[0];
-      List<String> answers = new ArrayList<>(values.length - 1);
-      for (int i = 1; i < values.length; i++) {
-        answers.add(values[i]);
+      String questionString = values[0];
+      List<Answer> answers = new ArrayList<>(values.length - 1);
+      Question question = new Question(questionString, answers);
+      for(int i = 1; i < values.length; i++) {
+        Answer answer = new Answer(question, values[i]);
+        answers.add(answer);
       }
-      return new Question(question, answers);
+      return question;
     };
   }
 
