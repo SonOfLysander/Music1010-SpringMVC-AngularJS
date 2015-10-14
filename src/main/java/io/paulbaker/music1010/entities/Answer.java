@@ -3,6 +3,7 @@ package io.paulbaker.music1010.entities;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +25,7 @@ public class Answer {
   private long answerId;
 
   //  @Column()
-  @ManyToOne(targetEntity = Question.class, cascade = CascadeType.PERSIST)
+  @ManyToOne(targetEntity = Question.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinColumn(name = "question_id", referencedColumnName = "id", insertable = true, updatable = true)
   private Question question;
 

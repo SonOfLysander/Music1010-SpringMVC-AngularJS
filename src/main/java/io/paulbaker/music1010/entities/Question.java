@@ -29,7 +29,7 @@ public class Question {
   @Column(name = "question")
   private String question;
 
-  @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, targetEntity = String.class, fetch = FetchType.EAGER)
+  @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, targetEntity = Answer.class, fetch = FetchType.EAGER)
   @JoinColumn(insertable = true, updatable = true, referencedColumnName = "answers")
   private List<Answer> answers;
 
