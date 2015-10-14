@@ -1,5 +1,6 @@
 package io.paulbaker.music1010;
 
+import io.paulbaker.music1010.entities.Question;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -39,7 +40,7 @@ public class MusicDataConfig {
   private Resource musicCsvResource;
 
   @Bean
-  public LineMapper<MusicalFactoid> musicalFactoidLineMapper() {
+  public LineMapper<Question> musicalFactoidLineMapper() {
     return (line, lineNumber) -> {
       String[] values = line.split(";");
       String question = values[0];
@@ -47,22 +48,22 @@ public class MusicDataConfig {
       for (int i = 1; i < values.length; i++) {
         answers.add(values[i]);
       }
-      return new MusicalFactoid(question, answers);
+      return new Question(question, answers);
     };
   }
 
   @Bean
-  public ItemReader<MusicalFactoid> musicReader(LineMapper<MusicalFactoid> musicalFactoidLineMapper) {
-    FlatFileItemReader<MusicalFactoid> itemReader = new FlatFileItemReader<>();
+  public ItemReader<Question> musicReader(LineMapper<Question> musicalFactoidLineMapper) {
+    FlatFileItemReader<Question> itemReader = new FlatFileItemReader<>();
     itemReader.setResource(musicCsvResource);
     itemReader.setLineMapper(musicalFactoidLineMapper);
     return itemReader;
   }
 
   @Bean
-  public ItemWriter<MusicalFactoid> musicWriter(DataSource dataSource) {
-    JdbcBatchItemWriter<MusicalFactoid> itemWriter = new JdbcBatchItemWriter<>();
-    itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<MusicalFactoid>());
+  public ItemWriter<Question> musicWriter(DataSource dataSource) {
+    JdbcBatchItemWriter<Question> itemWriter = new JdbcBatchItemWriter<>();
+    itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<Question>());
 //    itemWriter.setSql("INSERT INTO music_facts (questions, answers) VALUES (:question, :answer)");
     itemWriter.setSql("INSERT INTO music_questions (question) VALUES (:question)");
     itemWriter.setSql("INSERT INTO music_facts (questions, answers) VALUES (:question, :answer)");
@@ -71,8 +72,8 @@ public class MusicDataConfig {
   }
 
   @Bean
-  public Step step1(StepBuilderFactory stepFactory, ItemReader<MusicalFactoid> itemReader, ItemWriter<MusicalFactoid> itemWriter) {
-    return stepFactory.get("step1").<MusicalFactoid, MusicalFactoid>chunk(10)
+  public Step step1(StepBuilderFactory stepFactory, ItemReader<Question> itemReader, ItemWriter<Question> itemWriter) {
+    return stepFactory.get("step1").<Question, Question>chunk(10)
       .reader(itemReader).writer(itemWriter).build();
   }
 
@@ -107,9 +108,9 @@ public class MusicDataConfig {
       @Override
       public void afterJob(JobExecution jobExecution) {
         logger.info("ENDING JOB:: " + jobExecution.getJobConfigurationName());
-//        jdbcTemplate.query("select * from music_facts", new RowMapper<MusicalFactoid>() {
+//        jdbcTemplate.query("select * from music_facts", new RowMapper<Question>() {
 //          @Override
-//          public MusicalFactoid mapRow(ResultSet resultSet, int i) throws SQLException {
+//          public Question mapRow(ResultSet resultSet, int i) throws SQLException {
 //
 //            return null;
 //          }
