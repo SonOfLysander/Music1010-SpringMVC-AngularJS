@@ -21,6 +21,7 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -41,7 +42,7 @@ public class MusicDataConfig {
 
   private Logger logger = Logger.getLogger(this.getClass());
 
-  @Value("${classpath:question-answers.csv}")
+  @Value("classpath:musicdata.csv")
   private Resource musicCsvResource;
 
 //  @Bean
@@ -60,6 +61,7 @@ public class MusicDataConfig {
     musicalFactoidDefaultLineMapper.setFieldSetMapper(new BeanWrapperFieldSetMapper<MusicalFactoid>() {{
       setTargetType(MusicalFactoid.class);
     }});
+
     return musicalFactoidDefaultLineMapper;
   }
 
@@ -67,6 +69,7 @@ public class MusicDataConfig {
   public ItemReader<MusicalFactoid> musicReader(LineMapper<MusicalFactoid> musicalFactoidLineMapper) {
     FlatFileItemReader<MusicalFactoid> itemReader = new FlatFileItemReader<>();
     itemReader.setResource(musicCsvResource);
+//    itemReader.setResource(new ClassPathResource("musicdata.csv"));
     itemReader.setLineMapper(musicalFactoidLineMapper);
     return itemReader;
   }
@@ -119,12 +122,12 @@ public class MusicDataConfig {
     return new JobExecutionListener() {
       @Override
       public void beforeJob(JobExecution jobExecution) {
-        logger.info("STARTING JOB");
+        logger.info("STARTING JOB:: " + jobExecution.getJobConfigurationName());
       }
 
       @Override
       public void afterJob(JobExecution jobExecution) {
-        logger.info("ENDING JOB");
+        logger.info("ENDING JOB:: " + jobExecution.getJobConfigurationName());
         jdbcTemplate.query("select * from music_facts", new RowMapper<MusicalFactoid>() {
           @Override
           public MusicalFactoid mapRow(ResultSet resultSet, int i) throws SQLException {

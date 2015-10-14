@@ -1,5 +1,7 @@
 package io.paulbaker.music1010;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -8,18 +10,18 @@ import java.util.Objects;
 public class MusicalFactoid {
 
   private String question;
-  private String answer;
+  private List<String> answer;
 
-  public MusicalFactoid(String question, String answer) {
+  public MusicalFactoid(String question, String... answer) {
     this.question = question;
-    this.answer = answer;
+    this.answer = Arrays.asList(answer);
   }
 
   public String getQuestion() {
     return question;
   }
 
-  public String getAnswer() {
+  public List<String> getAnswer() {
     return answer;
   }
 
