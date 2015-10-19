@@ -6,13 +6,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 /**
  * Created by paul on 10/14/15.
  */
-@Configuration
-@EnableJpaRepositories(
-//  transactionManagerRef = WebDb
-//  basePackageClasses = {
-//    QuestionRepository.class
-//  }
-  basePackages = {"io.paulbaker.music1010.repositories"}
-)
+//@Configuration
+//@EnableJpaRepositories(
+////  transactionManagerRef = WebDb
+////  basePackageClasses = {
+////    QuestionRepository.class
+////  }
+//  basePackages = {"io.paulbaker.music1010.repositories"}
+//)
 public class JpaConfiguration {
 }

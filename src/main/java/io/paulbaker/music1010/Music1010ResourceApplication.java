@@ -1,13 +1,12 @@
 package io.paulbaker.music1010;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.core.env.Environment;
 
+import javax.persistence.EntityManager;
 import java.awt.*;
 import java.net.URI;
 
@@ -20,6 +19,9 @@ public class Music1010ResourceApplication implements CommandLineRunner {
   private String port;
 
   public static void main(String[] args) {
+//    System.out.println(EntityManager.class.getProtectionDomain()
+//      .getCodeSource()
+//      .getLocation());
     SpringApplication.run(Music1010ResourceApplication.class, args);
   }
 

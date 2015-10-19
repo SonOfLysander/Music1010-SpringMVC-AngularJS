@@ -2,6 +2,7 @@ package io.paulbaker.music1010;
 
 import io.paulbaker.music1010.entities.Answer;
 import io.paulbaker.music1010.entities.Question;
+import io.paulbaker.music1010.repositories.QuestionRepository;
 import org.apache.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -21,8 +22,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +40,44 @@ import java.util.List;
  */
 @Configuration
 @EnableBatchProcessing
+@EnableJpaRepositories(
+//  transactionManagerRef = WebDbConfig.Names.TRANSACTION_MANAGER,
+//  entityManagerFactoryRef = "myEmf", //WebDbConfig.Names.ENTITY_MANAGER_FACTORY,
+  basePackageClasses = {
+    QuestionRepository.class
+  }
+//  basePackages = {"io.paulbaker.music1010.repositories"}
+)
 public class MusicDataConfig {
 
   private Logger logger = Logger.getLogger(this.getClass());
 
   @Value("classpath:musicdata.csv")
   private Resource musicCsvResource;
+
+  //  @Bean(name = "myEmf")
+//  public EntityManagerFactory myEntityManagerFactory() {
+////    return new EntityManagerFactory();
+//    EntityManagerFactory nativeEntityManagerFactory = new LocalEntityManagerFactoryBean().getNativeEntityManagerFactory();
+//    return nativeEntityManagerFactory;
+//  }
+
+  @Bean
+  public DataSource dataSource() {
+    return new EmbeddedDatabaseBuilder()
+      .setType(EmbeddedDatabaseType.HSQL)
+//      .addScript("classpath:schema.sql")
+//      .addScript("classpath:test-data.sql")
+      .build();
+  }
+
+//  @Bean(name = "myEmf")
+//  public EntityManagerFactory myEmf(DataSource dataSource) {
+//    LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+//    entityManagerFactoryBean.setDataSource(dataSource);
+//    entityManagerFactoryBean.setPersistenceUnitName(new PersistenceUnit());
+//    return entityManagerFactoryBean.getObject();
+//  }
 
   @Bean
   public LineMapper<Question> musicalFactoidLineMapper() {
@@ -65,6 +104,10 @@ public class MusicDataConfig {
 
   @Bean
   public ItemWriter<Question> musicWriter(DataSource dataSource) {
+//  public ItemWriter<Question> musicWriter(EntityManagerFactory entityManagerFactory) {
+//    JpaItemWriter<Question> itemWriter = new JpaItemWriter<>();
+//    itemWriter.setEntityManagerFactory(entityManagerFactory);
+//    return itemWriter;
     JdbcBatchItemWriter<Question> itemWriter = new JdbcBatchItemWriter<>();
     itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<Question>());
 //    itemWriter.setSql("INSERT INTO music_facts (questions, answers) VALUES (:question, :answer)");
@@ -85,15 +128,6 @@ public class MusicDataConfig {
     return jobs.get("importMusicFactsJob")
       .incrementer(new RunIdIncrementer()).listener(listener).flow(step1).end().build();
   }
-
-//  @Bean
-//  public DataSource dataSource() {
-//    return new EmbeddedDatabaseBuilder()
-//      .setType(EmbeddedDatabaseType.HSQL)
-////      .addScript("classpath:schema.sql")
-////      .addScript("classpath:test-data.sql")
-//      .build();
-//  }
 
   @Bean
   public JdbcTemplate jdbcTemplate(DataSource dataSource) {
